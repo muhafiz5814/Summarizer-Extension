@@ -1,7 +1,7 @@
 export async function summarizeText(promptText) {
 
     // OpenAI API key
-    const apiKey = 'ENTER-YOUR-API-KEY'
+    const apiKey = ''
 
     // The prompt we want to provide to the model
     const prompt = promptText;
@@ -50,7 +50,7 @@ export async function summarizeText(promptText) {
         return message
     } catch (err) {
         console.error(err)
-        return "Something happened, Unable to generate Summary."
+        return "Unprocessed"
     }
     }
 

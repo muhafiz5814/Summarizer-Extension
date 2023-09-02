@@ -46,20 +46,47 @@ function render(links){
 }
 
 function showTemporaryMessage1() {
-    temporaryMessageUrlEl.innerHTML = `<p class="message">Getting page content to summarize. It can take upto 60sec, please wait while we process</p>`
+    temporaryMessageUrlEl.innerHTML = `
+                                        <p class="message">
+                                            Getting page content to summarize.
+                                        </p>
+                                        <p class="message">
+                                            It can take upto 60sec, please wait while we process
+                                        </p>
+                                    `
 }
 
 function showTemporaryMessage2(block) {
     if(block === "url"){
-        temporaryMessageUrlEl.innerHTML = `<p class="message">Summarizing page content. It can take upto 60sec, please wait while we process</p>`
+        temporaryMessageUrlEl.innerHTML = `
+                                            <p class="message">
+                                                Summarizing page content.
+                                            </p>
+                                            <p class="message">
+                                                It can take upto 60sec, please wait while we process
+                                            </p>
+                                        `
     } else {
-        temporaryMessageManualEl.innerHTML = `<p class="message">Summarizing page content. It can take upto 60sec, please wait while we process</p>`
+        temporaryMessageManualEl.innerHTML = `
+                                            <p class="message">
+                                                Summarizing page content.
+                                            </p>
+                                            <p class="message">
+                                                It can take upto 60sec, please wait while we process
+                                            </p>
+                                        `
     }    
 }
 
-function showFailureMessage(message) {
-    temporaryMessageUrlEl.innerHTML = `<p class="warning">${message}</p>`
+function showFailureMessage(block, message) {
+    if(block === "url"){
+        temporaryMessageUrlEl.innerHTML = `<p class="warning">${message}</p>`
+    } else {
+        temporaryMessageManualEl.innerHTML = `<p class="warning">${message}</p>`
+    }
 }
+
+
 
 function renderOutput(data1) {
 
@@ -69,23 +96,34 @@ function renderOutput(data1) {
     outputDivEl.innerHTML = ``
 
     for(let i=0; i<dataArray.length; i++){
-        outputDivEl.innerHTML += `<p>- ${dataArray[i]}</p>`
+        if(dataArray[i]){
+            outputDivEl.innerHTML += `<p>- ${dataArray[i]}</p>`
+        }
     }
 }
 
 function generatePrompt(type, text){
     if(type === "bullet")
-        return `Please summarize the following text in form of bullet points and complete the last sentence with a ".": ${text}`
+        return `Please summarize the following text in form of bullet points and every point should have maximum 12 words: ${text}`
     else
         return `Please summarize the following text: ${text}`
      
 }
 
-// Get url of the page
-function getSummary(promptType) {
-    console.log("getSummary Entered")
-    try{
+function getFailureMessage(process){
+    if(process === "scraping"){
+        return "Something happened, Unable to get page data.\n  Try manual summarization if error repeates."
+    }
 
+    return "Something happened, Unable to Summarize data.\n     Try again."
+}
+
+
+function getSummaryUrl(promptType) {
+    // console.log("getSummary Entered")
+    const block = "url"
+    try{
+        // Get url of the page
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
             const tab = tabs[0].url
             
@@ -96,15 +134,20 @@ function getSummary(promptType) {
                 
                 if(content === `"Unprocessed"`) {
                     // outputDivEl.innerHTML = `<p> ${content} </p>`
-                    content = `Something happened, Unable to get page data.\n   Server side error\n Try manual summarization if error repeates.`
                     // renderOutput(content)
-                    showFailureMessage(content)
+                    showFailureMessage(block, getFailureMessage("scraping"))
                 } else {
-                    showTemporaryMessage2("url")
+                    showTemporaryMessage2(block)
                     const prompt = generatePrompt(promptType, content)
                     summarizeText(prompt).then(mainContent => {
 
-                        renderOutput(mainContent)
+                        if(mainContent === "Unprocessed"){
+                            showFailureMessage(block, getFailureMessage("summarizing"))
+                        } else {
+                            temporaryMessageUrlEl.innerHTML = ""
+                            renderOutput(mainContent)
+                        }
+                        
                         // outputDivEl.innerHTML = `<p> ${mainContent} </p>`
                     })
                 }
@@ -114,7 +157,41 @@ function getSummary(promptType) {
     } catch(err){
         console.error(err)
         const message = "Unable to load url"
-        showFailureMessage(message)
+        showFailureMessage(block, message)
+    }
+}
+
+function getSummaryManual(promptType){
+
+    const block = "manual"
+    const paragraph = inputEl.value
+
+    if(paragraph){
+
+        showTemporaryMessage2(block)
+        const prompt = generatePrompt(promptType, paragraph)
+        // Call the summarizeText which is imported from summarizer.js
+        summarizeText(prompt).then(mainContent => {
+            // const dataArray = data.split("-")
+            // console.log(dataArray)
+            // for(let i=0; i<dataArray.length; i++){
+            //     outputDivEl.innerHTML += `<p>- ${dataArray[i]}</p>`
+            // }
+
+            if(mainContent === "Unprocessed"){
+                showFailureMessage(block, getFailureMessage("summarizing"))
+            } else {
+                temporaryMessageManualEl.innerHTML = ""
+                renderOutput(mainContent)
+            }
+
+            // temporaryMessageManualEl.innerHTML = ""
+            // renderOutput(mainContent)
+            
+        })
+    } else {
+        const message = "Please provide text."
+        showFailureMessage(block, message)
     }
 }
 
@@ -174,44 +251,24 @@ function getSummary(promptType) {
 
 summarizeUrlEl.addEventListener("click", function() {
     // console.log("Calling getSummary ")
-    getSummary("normal")
+    getSummaryUrl("normal")
 })
 
 summarizeInBulletsUrlEl.addEventListener("click", function() {
     // console.log("Calling getSummary ")
-    getSummary("bullet")
+    getSummaryUrl("bullet")
 })
 
 summarizeManualEl.addEventListener("click", function(){
-    showTemporaryMessage2("manual")
-    const paragraph = inputEl.value
-    const prompt = generatePrompt("normal", paragraph)
-
-    summarizeText(prompt).then(data => {
-        // outputDivEl.innerHTML = `<p> ${data} </p>`
-        temporaryMessageManualEl.innerHTML = ""
-        renderOutput(data)
-    })
+    getSummaryManual("normal")
 })
 
 
 // Summarize the text inserted by user in input box
 summarizeInBulletsManualEl.addEventListener("click", function() {
-    showTemporaryMessage2("manual")
+
     // Get value from input box
-    const paragraph = inputEl.value
-    const prompt = generatePrompt("bullet", paragraph)
-    // Call the summarizeText which is imported from summarizer.js
-    summarizeText(prompt).then(data => {
-        // const dataArray = data.split("-")
-        // console.log(dataArray)
-        // for(let i=0; i<dataArray.length; i++){
-        //     outputDivEl.innerHTML += `<p>- ${dataArray[i]}</p>`
-        // }
-        temporaryMessageManualEl.innerHTML = ""
-        renderOutput(data)
-        
-    })
+    getSummaryManual("bullet")
 
 
 })

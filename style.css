@@ -123,6 +123,10 @@ button{
     color: darkmagenta;
 } */
 
+.temporary-message{
+    text-align: center;
+}
+
 .message{
     color: black;
 }
