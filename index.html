@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Libre+Baskerville:wght@700&family=Noto+Sans+Nabataean&family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal.css">
 </head>
 <body>
     
@@ -72,10 +73,28 @@
             </div>
         </div>
 
+        <div id="modal-block">
+            <button data-modal-target="#modal" >Open Modal</button>
+            <div class="modal" id="modal">
+                <div class="modal-header">
+                    <div class="title">Summary</div>
+                    <button data-close-button class="close-button" >&times;</button>
+                </div>
+                <div class="modal-body">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, tempore id! Vero non, reprehenderit rerum facilis deserunt vel minima provident molestiae voluptatum quasi cupiditate, recusandae sapiente assumenda dignissimos harum debitis.
+                </div>
+            </div>
+            <div id="overlay"></div>
 
+        </div>
+
+        
         
     </div>
 
+    
+
     <script type="module" src="main.js"></script>
+    <script src="modal.js"></script>
 </body>
 </html>
