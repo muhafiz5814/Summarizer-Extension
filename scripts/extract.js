@@ -5,18 +5,14 @@ export async function extractContent(url){
 
     const rulesToExtract = `{"main": {"selector": ".ssrcss-11r1m41-RichTextComponentWrapper", "all": "1"}}`
     const extract_rules = encodeURIComponent(rulesToExtract)
-    // const targetUrl = ""
-
-    // const extractBtnEl = document.getElementById("extract-btn")
 
     const requestUrl = `https://api.webscrapingapi.com/v1?api_key=${apiKey}&url=${pageUrl}&render_js=1&proxy_type=residential&wait_until=networkidle0&timeout=60000&extract_rules=${extract_rules}&country=us`
 
     async function makeAPpiRequest(urlToFetch) {
 
-        // console.log("getData function entered.")
         try{
             const response = await fetch(urlToFetch)
-            // console.log("fetch line executed")
+
             if(!response.ok){
                 throw new Error(`HTTP Error! Status: ${(response).status}`)
             }
@@ -25,12 +21,10 @@ export async function extractContent(url){
             return result
 
         } catch (error){
-            // console.log("error occured")
             console.error(error)
             const warning = {main: "Unprocessed"}
             return warning
         }
-
     }
 
     const pageContet = await makeAPpiRequest(requestUrl)

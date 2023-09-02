@@ -5,13 +5,9 @@
 
 body{
     margin: 5px;
-    /* padding: auto 5px; */
-
-    /* padding: 10px; */
     min-width: 300px;
     min-height: 400px;
     background-color: rgb(232, 230, 227);
-    /* box-sizing: border-box; */
 
 }
 
@@ -19,25 +15,13 @@ body{
     box-sizing: border-box;
     max-width: 600px;
     margin:auto auto;
-    /* background-color: #fc2f2f; */
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
 }
 
-
-/* input{
-    box-sizing: border-box;
-    width: 100%;
-    margin-bottom: 5px;
-    padding: 10px;
-    font-size: medium;
-    border: 1px solid #8860c4;
-} */
-
 #heading{
-    /* margin-bottom: 10px; */
     font-family: 'Black Ops One', cursive;
     color: #11b4ba;
 }
@@ -46,7 +30,6 @@ body{
     box-sizing: border-box;
     padding: 3px;
     width: 100%;
-    /* max-width: 600px; */
     background-color: rgba(201, 197, 193, 0.553);
     border-radius: 4px;
 }
@@ -64,26 +47,18 @@ body{
 }
 
 .button-block{
-    /* margin-top: 10px; */
     box-sizing: border-box;
-    /* width: 80%; */
-    /* max-width: 400px; */
-    /* height: 50px; */
     padding: 10px 0px;
-    /* background-color: white; */
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    /* border: 2px solid rgba(225, 219, 219, 0.616); */
     border-radius: 8px;
 }
 
 #input-block{
-    /* max-width: 400px; */
     margin-top: 5px;
     height: 30px;
     background-color: #bdafd3;
-    /* border: 1px solid rebeccapurple; */
     border-radius: 3px;
     display: flex;
     justify-content: center;
@@ -108,14 +83,6 @@ button{
     border-radius: 5px;
 }
 
-
-
-/* p{
-    margin-top: 10px;
-    font-size: medium;
-    color: darkmagenta;
-} */
-
 .temporary-message{
     text-align: center;
     font-size: 10px;
@@ -131,5 +98,3 @@ button{
     background-color: rgba(162, 160, 157, 0.511);
     border-radius: 4px 4px 0 0;
 }
-
-

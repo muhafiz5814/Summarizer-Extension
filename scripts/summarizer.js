@@ -1,7 +1,7 @@
 export async function summarizeText(promptText) {
 
     // OpenAI API key
-    const apiKey = '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'
+    const apiKey = 'API-KEY'
 
     // The prompt we want to provide to the model
     const prompt = promptText;
@@ -56,7 +56,5 @@ export async function summarizeText(promptText) {
 
     // Call the async function to make the API request
     const result = await makeApiRequest()
-    // console.log(result)
     return result
-
 }
