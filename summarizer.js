@@ -41,7 +41,7 @@ export async function summarizeText(promptText) {
         });
 
         if (!response.ok) {
-        throw new Error(`Request failed with error: ${response}`)
+        throw new Error(`Request failed with error: ${response.status}`)
         }
 
         const responseData = await response.json()

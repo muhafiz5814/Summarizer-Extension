@@ -8,8 +8,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Libre+Baskerville:wght@700&family=Noto+Sans+Nabataean&family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,14 +17,14 @@
 
     <div id="header-block">
         <header>
-            <h2 id="heading">Summarizer</h2>
+            <h2 id="heading" class="font-black-ops-one">Summarizer</h2>
         </header>
     </div>
         <!-- <button id="tab-btn">SAVE TAB</button> -->
     <div id="container">
         <div id="url-summarizer-block" class="summarizer-block">
-            <div class="message">
-                <p>Get summary of the page content directly.</p>
+            <div class="url-title block-title">
+                <p>Generate Directly</p>
             </div>
             <div class="button-block" id="url-button">
                 <div id="url-button-1">
@@ -41,11 +41,11 @@
 
         <div id="manual-summarizer-block" class="summarizer-block">
 
-            <div class="message">
-                <p>Manual summary </p>
+            <div class="manual-title block-title">
+                <p>Generate Manually</p>
             </div>
             <div id="input-block">
-                <input type="text" id="input-el">
+                <input type="text" id="input-el" placeholder="Insert text here to summarize">
             </div>
     
             <div class="button-block"  id="manual-button">
@@ -62,19 +62,14 @@
             </div>
         </div>
 
-        
-        
-
-        
-        <!-- <button id="delete-btn">DELETE ALL</button> -->
-        <!-- <p id="p-el"></p>
-        <ul id="ul-el"></ul> -->
 
         <div class="output-text" id="output-div">
-            <!-- <div id="summary-heading">
-                <h3>Summary</h3>
-            </div> -->
-            <p>This is example text to style the div element.</p>
+            <div id="summary-heading">
+                <h3>Summary:</h3>
+            </div>
+            <div id="summary-content">
+                <p>Summary will appear here.</p>
+            </div>
         </div>
 
 

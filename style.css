@@ -5,6 +5,8 @@
 
 body{
     margin: 5px;
+    /* padding: auto 5px; */
+
     /* padding: 10px; */
     min-width: 300px;
     min-height: 400px;
@@ -15,7 +17,6 @@ body{
 
 #container{
     box-sizing: border-box;
-    /* padding: 5px; */
     max-width: 600px;
     margin:auto auto;
     /* background-color: #fc2f2f; */
@@ -58,6 +59,10 @@ body{
     margin: 20px auto;
 }
 
+.block-title{
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
 .button-block{
     /* margin-top: 10px; */
     box-sizing: border-box;
@@ -75,7 +80,8 @@ body{
 
 #input-block{
     /* max-width: 400px; */
-    height: 40px;
+    margin-top: 5px;
+    height: 30px;
     background-color: #bdafd3;
     /* border: 1px solid rebeccapurple; */
     border-radius: 3px;
@@ -102,13 +108,7 @@ button{
     border-radius: 5px;
 }
 
-.output-text{
-    background-color: rgba(201, 197, 193, 0.553);
-    padding: 5px;
-    /* color: white; */
-    /* font-size: medium; */
-    
-}
+
 
 #delete-btn{
     background-color: white;
@@ -125,14 +125,27 @@ button{
 
 .temporary-message{
     text-align: center;
-}
-
-.message{
-    color: black;
+    font-size: 10px;
+    font-family: 'Libre Baskerville', serif;
 }
 
 .warning{
     color: red;
+}
+
+.output-text{
+    background-color: rgba(201, 197, 193, 0.553);
+    /* padding: 5px; */
+    font-family: 'Noto Sans Nabataean', sans-serif;
+    border-radius: 4px;
+    /* color: white; */
+    /* font-size: medium; */
+    
+}
+
+#summary-heading{
+    background-color: rgba(162, 160, 157, 0.511);
+    border-radius: 4px 4px 0 0;
 }
 
 ul{

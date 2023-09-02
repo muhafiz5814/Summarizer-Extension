@@ -14,7 +14,7 @@ const inputEl = document.getElementById("input-el")
 const summarizeManualEl = document.getElementById("summarize-manual")
 const summarizeInBulletsManualEl = document.getElementById("summarize-in-bullets-manual")
 const temporaryMessageManualEl = document.getElementById("temporary-message-manual")
-const outputDivEl = document.getElementById("output-div")
+const summaryContentEl = document.getElementById("summary-content")
 
 
 // Render the links that are already in localStorage whenever we open the extention.
@@ -69,7 +69,7 @@ function showTemporaryMessage2(block) {
     } else {
         temporaryMessageManualEl.innerHTML = `
                                             <p class="message">
-                                                Summarizing page content.
+                                                Summarizing text content.
                                             </p>
                                             <p class="message">
                                                 It can take upto 60sec, please wait while we process
@@ -93,11 +93,11 @@ function renderOutput(data1) {
     
     const dataArray = data1.split("- ")
     // console.log(dataArray)
-    outputDivEl.innerHTML = ``
+    summaryContentEl.innerHTML = ``
 
     for(let i=0; i<dataArray.length; i++){
         if(dataArray[i]){
-            outputDivEl.innerHTML += `<p>- ${dataArray[i]}</p>`
+            summaryContentEl.innerHTML += `<p>- ${dataArray[i]}</p>`
         }
     }
 }
