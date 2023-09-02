@@ -1,7 +1,7 @@
 export async function summarizeText(promptText) {
 
     // OpenAI API key
-    const apiKey = ''
+    const apiKey = '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'
 
     // The prompt we want to provide to the model
     const prompt = promptText;

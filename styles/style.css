@@ -110,13 +110,6 @@ button{
 
 
 
-#delete-btn{
-    background-color: white;
-    color: #fc2f2f;
-    border: 1px solid #fc2f2f;
-}
-
-
 /* p{
     margin-top: 10px;
     font-size: medium;
@@ -127,39 +120,16 @@ button{
     text-align: center;
     font-size: 10px;
     font-family: 'Libre Baskerville', serif;
+    margin-bottom: 3px;
 }
 
 .warning{
     color: red;
 }
 
-.output-text{
-    background-color: rgba(201, 197, 193, 0.553);
-    /* padding: 5px; */
-    font-family: 'Noto Sans Nabataean', sans-serif;
-    border-radius: 4px;
-    /* color: white; */
-    /* font-size: medium; */
-    
-}
-
 #summary-heading{
     background-color: rgba(162, 160, 157, 0.511);
     border-radius: 4px 4px 0 0;
-}
-
-ul{
-    list-style: none;
-    margin-top: 20px;
-    padding-left: 0;
-}
-
-li{
-    margin-top: 5px;
-}
-
-li a{
-    color: #8860c4;
 }
 
 
