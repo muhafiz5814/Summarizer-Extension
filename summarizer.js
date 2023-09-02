@@ -1,13 +1,13 @@
 export async function summarizeText(promptText) {
 
     // OpenAI API key
-    const apiKey = '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';
+    const apiKey = 'ENTER-YOUR-API-KEY'
 
     // The prompt we want to provide to the model
     const prompt = promptText;
 
     // Define the API endpoint
-    const url = 'https://api.openai.com/v1/chat/completions';
+    const url = 'https://api.openai.com/v1/chat/completions'
 
     // Define the request payload
     const data = {
@@ -41,15 +41,15 @@ export async function summarizeText(promptText) {
         });
 
         if (!response.ok) {
-        throw new Error(`Request failed with status: ${response.status}`);
+        throw new Error(`Request failed with error: ${response}`)
         }
 
-        const responseData = await response.json();
-        const message = responseData.choices[0].message.content;
+        const responseData = await response.json()
+        const message = responseData.choices[0].message.content
         console.log(message);
         return message
     } catch (err) {
-        console.error(err);
+        console.error(err)
         return "Something happened, Unable to generate Summary."
     }
     }

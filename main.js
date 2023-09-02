@@ -9,9 +9,11 @@ const ulEl = document.getElementById("ul-el")
 const pEl = document.getElementById("p-el")
 const summarizeUrlEl = document.getElementById("summarize-url")
 const summarizeInBulletsUrlEl = document.getElementById("summarize-in-bullets-url")
+const temporaryMessageUrlEl = document.getElementById("temporary-message-url")
 const inputEl = document.getElementById("input-el")
 const summarizeManualEl = document.getElementById("summarize-manual")
 const summarizeInBulletsManualEl = document.getElementById("summarize-in-bullets-manual")
+const temporaryMessageManualEl = document.getElementById("temporary-message-manual")
 const outputDivEl = document.getElementById("output-div")
 
 
@@ -43,11 +45,25 @@ function render(links){
     ulEl.innerHTML = listItems
 }
 
-function showTemporaryMessage() {
-    outputDivEl.innerHTML = `<p> It can take upto 60sec, Please wait while we process. </p>`
+function showTemporaryMessage1() {
+    temporaryMessageUrlEl.innerHTML = `<p class="message">Getting page content to summarize. It can take upto 60sec, please wait while we process</p>`
+}
+
+function showTemporaryMessage2(block) {
+    if(block === "url"){
+        temporaryMessageUrlEl.innerHTML = `<p class="message">Summarizing page content. It can take upto 60sec, please wait while we process</p>`
+    } else {
+        temporaryMessageManualEl.innerHTML = `<p class="message">Summarizing page content. It can take upto 60sec, please wait while we process</p>`
+    }    
+}
+
+function showFailureMessage(message) {
+    temporaryMessageUrlEl.innerHTML = `<p class="warning">${message}</p>`
 }
 
 function renderOutput(data1) {
+
+    
     const dataArray = data1.split("- ")
     // console.log(dataArray)
     outputDivEl.innerHTML = ``
@@ -68,27 +84,38 @@ function generatePrompt(type, text){
 // Get url of the page
 function getSummary(promptType) {
     console.log("getSummary Entered")
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        const tab = tabs[0].url
+    try{
 
-        extractContent(tab).then(data => {
-            let content = JSON.stringify(data.main)
-
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+            const tab = tabs[0].url
             
-            if(content === `"Unprocessed"`) {
-                // outputDivEl.innerHTML = `<p> ${content} </p>`
-                content = `Something happened, Unable to get page data.\n   Server side error\n Try manual summarization if error repeates.`
-                renderOutput(content)
-            } else {
-                const prompt = generatePrompt(promptType, content)
-                summarizeText(prompt).then(mainContent => {
-                    renderOutput(mainContent)
-                    // outputDivEl.innerHTML = `<p> ${mainContent} </p>`
-                })
-            }
+            showTemporaryMessage1()
+            extractContent(tab).then(data => {
+                let content = JSON.stringify(data.main)
 
+                
+                if(content === `"Unprocessed"`) {
+                    // outputDivEl.innerHTML = `<p> ${content} </p>`
+                    content = `Something happened, Unable to get page data.\n   Server side error\n Try manual summarization if error repeates.`
+                    // renderOutput(content)
+                    showFailureMessage(content)
+                } else {
+                    showTemporaryMessage2("url")
+                    const prompt = generatePrompt(promptType, content)
+                    summarizeText(prompt).then(mainContent => {
+
+                        renderOutput(mainContent)
+                        // outputDivEl.innerHTML = `<p> ${mainContent} </p>`
+                    })
+                }
+
+            })
         })
-    })
+    } catch(err){
+        console.error(err)
+        const message = "Unable to load url"
+        showFailureMessage(message)
+    }
 }
 
 // function summarizeInBulletsUrlEl() {
@@ -146,22 +173,23 @@ function getSummary(promptType) {
 // })
 
 summarizeUrlEl.addEventListener("click", function() {
-    console.log("Calling getSummary ")
+    // console.log("Calling getSummary ")
     getSummary("normal")
 })
 
 summarizeInBulletsUrlEl.addEventListener("click", function() {
-    console.log("Calling getSummary ")
+    // console.log("Calling getSummary ")
     getSummary("bullet")
 })
 
 summarizeManualEl.addEventListener("click", function(){
-    showTemporaryMessage()
+    showTemporaryMessage2("manual")
     const paragraph = inputEl.value
     const prompt = generatePrompt("normal", paragraph)
 
     summarizeText(prompt).then(data => {
         // outputDivEl.innerHTML = `<p> ${data} </p>`
+        temporaryMessageManualEl.innerHTML = ""
         renderOutput(data)
     })
 })
@@ -169,7 +197,7 @@ summarizeManualEl.addEventListener("click", function(){
 
 // Summarize the text inserted by user in input box
 summarizeInBulletsManualEl.addEventListener("click", function() {
-    showTemporaryMessage()
+    showTemporaryMessage2("manual")
     // Get value from input box
     const paragraph = inputEl.value
     const prompt = generatePrompt("bullet", paragraph)
@@ -180,7 +208,7 @@ summarizeInBulletsManualEl.addEventListener("click", function() {
         // for(let i=0; i<dataArray.length; i++){
         //     outputDivEl.innerHTML += `<p>- ${dataArray[i]}</p>`
         // }
-
+        temporaryMessageManualEl.innerHTML = ""
         renderOutput(data)
         
     })

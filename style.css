@@ -123,6 +123,14 @@ button{
     color: darkmagenta;
 } */
 
+.message{
+    color: black;
+}
+
+.warning{
+    color: red;
+}
+
 ul{
     list-style: none;
     margin-top: 20px;
