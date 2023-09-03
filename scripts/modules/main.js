@@ -20,7 +20,7 @@ function showTemporaryMessage1() {
 // Update temporary message to the following text.
     temporaryMessageUrlEl.innerHTML = `
                                         <p class="message">
-                                            Getting page content to summarize.
+                                            Getting page content.
                                         </p>
                                         <p class="message">
                                             It can take upto 60sec, please wait while we process
