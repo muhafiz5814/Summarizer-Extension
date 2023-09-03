@@ -25,25 +25,51 @@ function showTemporaryMessage1() {
                                     `
 }
 
-function showTemporaryMessage2(block) {
+function showTemporaryMessage2(type, block) {
     if(block === "url"){
-        temporaryMessageUrlEl.innerHTML = `
-                                            <p class="message">
-                                                Summarizing page content.
-                                            </p>
-                                            <p class="message">
-                                                It can take upto 60sec, please wait while we process
-                                            </p>
-                                        `
+        if(type === "normal") {
+
+            temporaryMessageUrlEl.innerHTML = `
+                                                <p class="message">
+                                                    Summarizing content.
+                                                </p>
+                                                <p class="message">
+                                                    It can take upto 60sec, please wait while we process
+                                                </p>
+                                            `
+        } else {
+            temporaryMessageUrlEl.innerHTML = `
+                                                <p class="message">
+                                                    Generating Major Points.
+                                                </p>
+                                                <p class="message">
+                                                    It can take upto 60sec, please wait while we process
+                                                </p>
+                                            `
+
+        }
     } else {
-        temporaryMessageManualEl.innerHTML = `
-                                            <p class="message">
-                                                Summarizing text content.
-                                            </p>
-                                            <p class="message">
-                                                It can take upto 60sec, please wait while we process
-                                            </p>
-                                        `
+        if(type === "normal") {
+
+            temporaryMessageManualEl.innerHTML = `
+                                                <p class="message">
+                                                    Summarizing content.
+                                                </p>
+                                                <p class="message">
+                                                    It can take upto 60sec, please wait while we process
+                                                </p>
+                                            `
+        } else {
+            temporaryMessageManualEl.innerHTML = `
+                                                <p class="message">
+                                                    Generating Major Points.
+                                                </p>
+                                                <p class="message">
+                                                    It can take upto 60sec, please wait while we process
+                                                </p>
+                                            `
+
+        }
     }    
 }
 
@@ -65,7 +91,7 @@ function updatTitle(type) {
 
 function renderOutput(data1) {
 
-    openModalMessageEl.textContent = "Summary is ready, click below to open."
+    openModalMessageEl.textContent = "Process Complete, click below to open."
     const dataArray = data1.split("- ")
   
     modalBodyEl.innerHTML = ``
@@ -97,8 +123,10 @@ function getFailureMessage(process){
 
 function getSummaryUrl(promptType) {
 
+    const type = promptType
     openModalMessageEl.textContent = ""
-    updatTitle(promptType)
+    updatTitle(type)
+
     const block = "url"
     try{
         // Get url of the page
@@ -114,8 +142,8 @@ function getSummaryUrl(promptType) {
                    
                     showFailureMessage(block, getFailureMessage("scraping"))
                 } else {
-                    showTemporaryMessage2(block)
-                    const prompt = generatePrompt(promptType, content)
+                    showTemporaryMessage2(type, block)
+                    const prompt = generatePrompt(type, content)
                     summarizeText(prompt).then(mainContent => {
 
                         if(mainContent === "Unprocessed"){
@@ -138,16 +166,17 @@ function getSummaryUrl(promptType) {
 
 function getSummaryManual(promptType){
 
+    const type = promptType
     openModalMessageEl.textContent = ""
-    updatTitle(promptType)
+    updatTitle(type)
     const block = "manual"
 
     const paragraph = inputEl.value
 
     if(paragraph){
 
-        showTemporaryMessage2(block)
-        const prompt = generatePrompt(promptType, paragraph)
+        showTemporaryMessage2(type, block)
+        const prompt = generatePrompt(type, paragraph)
 
         summarizeText(prompt).then(mainContent => {
 
