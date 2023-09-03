@@ -98,3 +98,14 @@ button{
     background-color: rgba(162, 160, 157, 0.511);
     border-radius: 4px 4px 0 0;
 }
+
+#network-status {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    font-size: medium;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+}
