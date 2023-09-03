@@ -74,7 +74,7 @@ function renderOutput(data1) {
 
 function generatePrompt(type, text){
     if(type === "bullet")
-        return `Please summarize the following text in form of bullet points and every point should have maximum 12 words with a full stop(.) at the end of sentence: ${text}`
+        return `Please provide some of the major points of the following text in form of bullet points and every point should have maximum 12 words with a full stop(.) at the end of sentence: ${text}`
     else
         return `Please summarize the following text: ${text}`
 }
