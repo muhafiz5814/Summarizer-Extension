@@ -81,6 +81,11 @@ button{
     font-size: 10px;
     border: 1px solid #8860c4;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: #664697;
 }
 
 .temporary-message{
