@@ -1,5 +1,5 @@
-import { summarizeText } from "../summarizer.js"
-import { extractContent } from "../extract.js"
+import { summarizeText } from "./summarizer.js"
+import { extractContent } from "./extract.js"
 
 
 const summarizeUrlEl = document.getElementById("summarize-url")
@@ -11,6 +11,7 @@ const summarizeInBulletsManualEl = document.getElementById("summarize-in-bullets
 const temporaryMessageManualEl = document.getElementById("temporary-message-manual")
 const modalBodyEl = document.getElementById("modal-body")
 const openModalMessageEl = document.getElementById("open-modal-message")
+const modalTitleEl = document.getElementById("modal-title")
 
 
 function showTemporaryMessage1() {
@@ -54,6 +55,13 @@ function showFailureMessage(block, message) {
     }
 }
 
+function updatTitle(type) {
+    if(type === "normal") {
+        modalTitleEl.innerHTML = `<p> Summary </p>`
+    } else {
+        modalTitleEl.innerHTML = `<p> Major Points </p>`
+    }
+}
 
 function renderOutput(data1) {
 
@@ -90,6 +98,7 @@ function getFailureMessage(process){
 function getSummaryUrl(promptType) {
 
     openModalMessageEl.textContent = ""
+    updatTitle(promptType)
     const block = "url"
     try{
         // Get url of the page
@@ -130,7 +139,9 @@ function getSummaryUrl(promptType) {
 function getSummaryManual(promptType){
 
     openModalMessageEl.textContent = ""
+    updatTitle(promptType)
     const block = "manual"
+
     const paragraph = inputEl.value
 
     if(paragraph){
@@ -159,6 +170,7 @@ summarizeUrlEl.addEventListener("click", function() {
 })
 
 summarizeInBulletsUrlEl.addEventListener("click", function() {
+    modalTitleEl.innerHTML = `<p> Major Points </p>`
     getSummaryUrl("bullet")
 })
 
@@ -167,5 +179,6 @@ summarizeManualEl.addEventListener("click", function(){
 })
 
 summarizeInBulletsManualEl.addEventListener("click", function() {
+    modalTitleEl.innerHTML = `<p> Major Points </p>`
     getSummaryManual("bullet")
 })
