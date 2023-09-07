@@ -11,8 +11,8 @@ const summarizeManualEl = document.getElementById("summarize-manual")
 const summarizeInBulletsManualEl = document.getElementById("summarize-in-bullets-manual")
 const temporaryMessageManualEl = document.getElementById("temporary-message-manual")
 const modalBodyEl = document.getElementById("modal-body")
-const openModalMessageEl = document.getElementById("open-modal-message")
-const modalTitleEl = document.getElementById("modal-title")
+const openSummaryMessageEl = document.getElementById("open-summary-message")
+const summaryModalTitleEl = document.getElementById("summary-modal-title")
 
 // Define function to show temporary message while Getting page data in Direct section
 function showTemporaryMessage1() {
@@ -90,9 +90,9 @@ function generatePrompt(type, text){
 // Define function to update the heading title of modal/response according to user request
 function updateTitle(type) {
     if(type === "normal") {
-        modalTitleEl.innerHTML = `<p> Summary </p>`
+        summaryModalTitleEl.innerHTML = `<p> Summary </p>`
     } else {
-        modalTitleEl.innerHTML = `<p> Major Points </p>`
+        summaryModalTitleEl.innerHTML = `<p> Major Points </p>`
     }
 }
 
@@ -118,7 +118,7 @@ function showFailureMessage(block, message) {
 function renderOutput(data1) {
 
     // Indicates users to click the show result button.
-    openModalMessageEl.textContent = "Process Complete, click below to open."
+    openSummaryMessageEl.textContent = "Process Complete, click below to open."
 
     // Convert the String response to array of sentences.
     const dataArray = data1.split("- ")
@@ -143,7 +143,7 @@ function getSummaryUrl(promptType) {
 
     const type = promptType
     // Remove message, indicating to click the show result button, as we are now in new process.
-    openModalMessageEl.textContent = ""
+    openSummaryMessageEl.textContent = ""
 
     // Call updateTitle to update response heading title according to type(string) parameter.
     updateTitle(type)
@@ -217,7 +217,7 @@ function getSummaryManual(promptType){
     const type = promptType
 
     // Remove message, indicating to click the show result button, as we are now in new process.
-    openModalMessageEl.textContent = ""
+    openSummaryMessageEl.textContent = ""
 
     // Call updateTitle to update response heading title according to type(string) parameter.
     updateTitle(type)
