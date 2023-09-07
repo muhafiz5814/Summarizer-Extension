@@ -45,14 +45,14 @@ overlayEl.addEventListener("click", () => {
 
 
 // Define function to add the class active to modal and overlay, and make it visible
-function openModal() {
+function openModal(modal) {
     if(modal == null) return
     modal.classList.add("active")
     overlayEl.classList.add("active")
 }
 
 // Define function to remove the class active from modal and overlay, and make it hidden
-function closeModal() {
+function closeModal(modal) {
     if(modal == null) return
     modal.classList.remove("active")
     overlayEl.classList.remove("active")

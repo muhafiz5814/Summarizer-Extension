@@ -63,23 +63,42 @@
             </div>
         </div>
 
-        
-        <div id="modal-block">
-            <div class="open-modal" id="open-modal">
+        <div class="access-modal-block">
+            <div class="open-modal" id="open-modal1">
                 <p id="open-modal-message" class="temporary-message"></p>
-                <button data-modal-target="#modal" id="open-modal-btn">Open Result</button>
+                <button data-modal-target="#modal1" id="open-summary-btn">Open Summary</button>
             </div>
-            <div class="modal" id="modal">
-                <div class="modal-header">
-                    <div class="title" id="modal-title">Summary</div>
-                    <button data-close-button class="close-button" >&times;</button>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    Nothing to show!
-                </div>
+            <div class="open-modal" id="open-modal2">
+                <p class="temporary-message"></p>
+                <button data-modal-target="#modal2" id="open-major-points-btn">Open Major Points</button>
             </div>
-            <div id="overlay"></div>
+        </div>
 
+        <div class="modal-block">
+            <div id="summary-modal-block">
+                <div class="modal" id="modal1">
+                    <div class="modal-header">
+                        <div class="title" id="modal-title">Summary</div>
+                        <button data-close-button class="close-button" >&times;</button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        Nothing to show!
+                    </div>
+                </div>
+                <div id="overlay"></div>
+            </div>
+    
+            <div id="major-points-modal-block">
+                <div class="modal" id="modal2">
+                    <div class="modal-header">
+                        <div class="title" id="modal-title">Major Points</div>
+                        <button data-close-button class="close-button">&times;</button>
+                    </div>
+                    <div class="modal-body" id="major-points-content">
+                        Nothing to show!
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="network-status"></div>
