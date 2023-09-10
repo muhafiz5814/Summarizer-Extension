@@ -4,14 +4,14 @@ import { extractContent } from "./extract.js"
 
 /** Get all the required Elements from index.html to operate onto them. */
 const summarizeUrlEl = document.getElementById("summarize-url")
-const summarizeInBulletsUrlEl = document.getElementById("summarize-in-bullets-url")
 const temporaryMessageUrlEl = document.getElementById("temporary-message-url")
 const inputEl = document.getElementById("input-el")
 const summarizeManualEl = document.getElementById("summarize-manual")
-const summarizeInBulletsManualEl = document.getElementById("summarize-in-bullets-manual")
 const temporaryMessageManualEl = document.getElementById("temporary-message-manual")
-const modalBodyEl = document.getElementById("modal-body")
+const summaryContentEl = document.getElementById("summary-content")
+const majorPointsContentEl = document.getElementById("major-points-content")
 const openSummaryMessageEl = document.getElementById("open-summary-message")
+const openMajorPointsMessageEl = document.getElementById("open-major-points-message")
 const summaryModalTitleEl = document.getElementById("summary-modal-title")
 
 /** Define function to show temporary message while Getting page data in Direct section. */
@@ -84,7 +84,6 @@ function showTemporaryMessage2(type, block) {
  * 
  * It takes two string parameter, one is type of response we want and other is text that we want to process.
  */
-
 function generatePrompt(type, text){
     if(type === "bullet")
         return `Please provide some of the major points of the following text in form of bullet points and every point should have maximum 12 words with a full stop(.) at the end of sentence: ${text}`
@@ -93,23 +92,12 @@ function generatePrompt(type, text){
 }
 
 
-
-/** Define function to update the heading title of modal/response according to user request. */
-function updateTitle(type) {
-    if(type === "normal") {
-        summaryModalTitleEl.innerHTML = `<p> Summary </p>`
-    } else {
-        summaryModalTitleEl.innerHTML = `<p> Major Points </p>`
-    }
-}
-
-
 /** Define function to get the Process failure message, according to at which stage, process failed. */
 function getFailureMessage(process){
     if(process === "scraping"){
         return "Something happened, Unable to get page data.\n  Try manual summarization if error repeates."
     }
-    return "Something happened, Unable to Summarize data.\n     Try again."
+    return "Something happened, Unable to process data.\n     Try again."
 }
 
 /**
@@ -124,21 +112,18 @@ function showFailureMessage(block, message) {
 }
 
 /** Defint function to get generated response and render out to DOM. */
-function renderOutput(data1) {
-
-    /** Indicates users to click the show result button. */
-    openSummaryMessageEl.textContent = "Process Complete, click below to open."
+function renderOutput(bodyEl, data) {
 
     /** Convert the String response to array of sentences. */
-    const dataArray = data1.split("- ")
+    const dataArray = data.split("- ")
   
     /** Before adding response text to the body, clear previous text present in body. */
-    modalBodyEl.innerHTML = ``
+    bodyEl.innerHTML = ``
 
     /** Loop through array to add every sentence to body. */
     for(let i=0; i<dataArray.length; i++){
         if(dataArray[i]){
-            modalBodyEl.innerHTML += `
+            bodyEl.innerHTML += `
                                         <p>- ${dataArray[i]}</p>
                                         <hr>
                                     `
@@ -146,18 +131,62 @@ function renderOutput(data1) {
     }
 }
 
+function renderSummary(type, data1) {
+    
+    if(type === "normal") {
+        const bodyEl = summaryContentEl
+        renderOutput(bodyEl, data1)
+    
+        /** Indicates users to click the show result button. */
+        openSummaryMessageEl.textContent = "Summary is Ready, click below to open."
+    } else {
+        const bodyEl = majorPointsContentEl
+        renderOutput(bodyEl, data1)
+        
+        /** Indicates users to click the show result button. */
+        openMajorPointsMessageEl.textContent = "Major Points are Ready, click below to open."
+    }
+}
+
+
+async function generateSummary(type, block, text){
+
+    /** Call function to show temporary message of summarizing. */
+    showTemporaryMessage2(type, block)
+
+    /** Call function to generate the prompt according to user choice and store it in a variable. */
+    const prompt = generatePrompt(type, text)
+
+    const mainContent = await summarizeText(prompt)
+
+    /** 
+     * Check if we have got desired response, or the data summarization has failed.
+     * 
+     * If summarization has failed, show error message, else continue to next step. 
+     */
+    if(mainContent === "Unprocessed"){
+
+        /** Call function to show failure message. */
+        showFailureMessage(block, getFailureMessage("summarizing"))
+
+    } else {
+
+        /** Remove the temporary message as we have got the response and process has completed successfully. */
+        temporaryMessageManualEl.innerHTML = ""
+
+        /** Call function to Update tht DOM and show output to user. */
+        renderSummary(type, mainContent)
+    }
+}
 
 /**
  * Define function to generate the result when user choses direct method. It takes one string parameter of promptType according the user request.
  */
-function getSummaryUrl(promptType) {
+function getSummaryUrl() {
 
-    const type = promptType
     /** Remove message, indicating to click the show result button, as we are now in new process. */
     openSummaryMessageEl.textContent = ""
-
-    /** Call updateTitle to update response heading title according to type(string) parameter. */
-    updateTitle(type)
+    openMajorPointsMessageEl.textContent = ""
 
     const block = "url"
 
@@ -188,37 +217,9 @@ function getSummaryUrl(promptType) {
 
                 } else {
 
-                    /** Call function to show temporary message of summarizing or generating major points. */
-                    showTemporaryMessage2(type, block)
-
-                    /** Call function to generate the prompt according to user choice and store it in a variable. */
-                    const prompt = generatePrompt(type, content)
-
-                    /** Call function to generate summary or major points from the text using prompt parameter. */
-                    summarizeText(prompt).then(mainContent => {
-
-                        /**
-                         * Check if we have got desired response, or the data summarization has failed.
-                         * 
-                         * If summarization has failed, show error message, else continue to next step.
-                         */
-                        if(mainContent === "Unprocessed"){
-
-                            /** Call function to show failure message. */
-                            showFailureMessage(block, getFailureMessage("summarizing"))
-
-                        } else {
-
-                            /**
-                             * Remove the temporary message as we have got the response and process has completed successfully.
-                             */
-                            temporaryMessageUrlEl.innerHTML = ""
-
-                            /** Call function to Update tht DOM and show output to user. */
-                            renderOutput(mainContent)
-                        }
-                        
-                    })
+                    generateSummary("normal", block, content)
+                    generateSummary("bullet", block, content)
+                    
                 }
             })
         })
@@ -233,15 +234,11 @@ function getSummaryUrl(promptType) {
 /**
  * Define function to generate the result when user choses direct method. It takes one string parameter of         promptType according the user request. 
  */
-function getSummaryManual(promptType){
-
-    const type = promptType
+async function getSummaryManual(){
 
     /** Remove message, indicating to click the show result button, as we are now in new process. */
     openSummaryMessageEl.textContent = ""
-
-    /** Call updateTitle to update response heading title according to type(string) parameter. */
-    updateTitle(type)
+    openMajorPointsMessageEl.textContent = ""
 
     const block = "manual"
 
@@ -255,34 +252,11 @@ function getSummaryManual(promptType){
      */
     if(paragraph){
 
-        /** Call function to show temporary message of summarizing or generating major points. */
-        showTemporaryMessage2(type, block)
-
-        /** Call function to generate the prompt according to user choice and store it in a variable. */
-        const prompt = generatePrompt(type, paragraph)
-
         /** Call function to generate summary or major points from the text using prompt parameter. */
-        summarizeText(prompt).then(mainContent => {
+        await generateSummary("normal", block, paragraph)
+        await generateSummary("bullet", block, paragraph)
 
-            /** 
-             * Check if we have got desired response, or the data summarization has failed.
-             * 
-             * If summarization has failed, show error message, else continue to next step. 
-             */
-            if(mainContent === "Unprocessed"){
-
-                /** Call function to show failure message. */
-                showFailureMessage(block, getFailureMessage("summarizing"))
-
-            } else {
-
-                /** Remove the temporary message as we have got the response and process has completed successfully. */
-                temporaryMessageManualEl.innerHTML = ""
-
-                /** Call function to Update tht DOM and show output to user. */
-                renderOutput(mainContent)
-            }
-        })
+        
     } else {
 
         /** Create message to alert user to input text data and call function to show failure. */
@@ -291,30 +265,12 @@ function getSummaryManual(promptType){
     }
 }
 
-/** Add event listener to the summarize button of url section and call the getSummaryUrl() function.
- * Provide the parameter value - normal, as user wants summary.
- */
+/** Add event listener to the summarize button of url section and call the getSummaryUrl() function. */
 summarizeUrlEl.addEventListener("click", function() {
-    getSummaryUrl("normal")
+    getSummaryUrl()
 })
 
-/** Add event listener to the Get Major Points button of url section and call the getSummaryUrl() function.
- * Provide the parameter value - bullet, as user wants Major points.
- */
-summarizeInBulletsUrlEl.addEventListener("click", function() {
-    getSummaryUrl("bullet")
-})
-
-/** Add event listener to the summarize button of manual section and call the getSummaryManual() function.
- * Provide the parameter value - normal, as user wants summary.
- */
+/** Add event listener to the summarize button of manual section and call the getSummaryManual() function. */
 summarizeManualEl.addEventListener("click", function(){
-    getSummaryManual("normal")
-})
-
-/** Add event listener to the summarize button of url section and call the getSummaryManual() function.
- * Provide the parameter value - bullet, as user wants major points.
- */
-summarizeInBulletsManualEl.addEventListener("click", function() {
-    getSummaryManual("bullet")
+    getSummaryManual()
 })
