@@ -138,13 +138,13 @@ function renderSummary(type, data1) {
         renderOutput(bodyEl, data1)
     
         /** Indicates users to click the show result button. */
-        openSummaryMessageEl.textContent = "Summary is Ready, click below to open."
+        openSummaryMessageEl.textContent = "Summary is Ready."
     } else {
         const bodyEl = majorPointsContentEl
         renderOutput(bodyEl, data1)
         
         /** Indicates users to click the show result button. */
-        openMajorPointsMessageEl.textContent = "Major Points are Ready, click below to open."
+        openMajorPointsMessageEl.textContent = "Major Points are Ready."
     }
 }
 

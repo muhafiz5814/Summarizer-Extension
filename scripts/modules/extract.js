@@ -6,7 +6,7 @@
 export async function extractContent(url){
 
     /** Store unique API Key in variable. */
-    const apiKey = "LBcgt9KswqYk8lwRk2K9sHmseFto2Zsk"
+    const apiKey = "API-KEY"
 
     /** Encode the provided url and store in a variable. */
     const pageUrl = encodeURIComponent(url)
