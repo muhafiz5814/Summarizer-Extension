@@ -12,7 +12,6 @@ const summaryContentEl = document.getElementById("summary-content")
 const majorPointsContentEl = document.getElementById("major-points-content")
 const openSummaryMessageEl = document.getElementById("open-summary-message")
 const openMajorPointsMessageEl = document.getElementById("open-major-points-message")
-const summaryModalTitleEl = document.getElementById("summary-modal-title")
 
 /** Define function to show temporary message while Getting page data in Direct section. */
 function showTemporaryMessage1() {
@@ -111,7 +110,7 @@ function showFailureMessage(block, message) {
     }
 }
 
-/** Defint function to get generated response and render out to DOM. */
+/** Define function to render out to DOM. */
 function renderOutput(bodyEl, data) {
 
     /** Convert the String response to array of sentences. */
@@ -131,8 +130,18 @@ function renderOutput(bodyEl, data) {
     }
 }
 
+/**
+ * Define a function to get the result and send it to the appropriate modal window according to the type of response.
+ */
 function renderSummary(type, data1) {
     
+    /**
+     * If type is normal, then set @constant bodyEl to @constant summaryContentEl .
+     * 
+     * Call the @function renderOutput() to render the output to DOM.
+     * 
+     * Then show message to the user that, result is ready.
+     */
     if(type === "normal") {
         const bodyEl = summaryContentEl
         renderOutput(bodyEl, data1)
@@ -179,17 +188,22 @@ async function generateSummary(type, block, text){
     }
 }
 
-/**
- * Define function to generate the result when user choses direct method. It takes one string parameter of promptType according the user request.
+/** Define function to generate the result when user choses direct method.
+ * 
+ * First it gets the url of the active page of current active window.
+ * 
+ * Then it sends the url to the extractor to get the page content.
+ * 
+ * Then it calls the @function generateSummary() to get the summary and major points.
  */
 function getSummaryUrl() {
-
+    
     /** Remove message, indicating to click the show result button, as we are now in new process. */
     openSummaryMessageEl.textContent = ""
     openMajorPointsMessageEl.textContent = ""
 
     const block = "url"
-
+    
     /** try block throws error if not able to get the url of the page. */
     try{
         /** Get url of the page. */
@@ -204,19 +218,20 @@ function getSummaryUrl() {
 
                 /** Convert the array response in string and store in a variable. */
                 let content = JSON.stringify(data.main)
-
+                
                 /**
                  * Check if we have got desired response or the data extraction has failed.
                  * 
                  * If extraction failed, show error message, else continue to next step.
-                 */
-                if(content === `"Unprocessed"`) {
-
-                    /** Call function to show failure message. */
-                    showFailureMessage(block, getFailureMessage("scraping"))
-
+                */
+               if(content === `"Unprocessed"`) {
+                   
+                   /** Call function to show failure message. */
+                   showFailureMessage(block, getFailureMessage("scraping"))
+                   
                 } else {
-
+                    
+                    /** Call function to generate summary or major points from the text according to type parameter value. */
                     generateSummary("normal", block, content)
                     generateSummary("bullet", block, content)
                     
@@ -231,8 +246,13 @@ function getSummaryUrl() {
     }
 }
 
-/**
- * Define function to generate the result when user choses direct method. It takes one string parameter of         promptType according the user request. 
+/** Define function to generate the result when user choses manual method.
+ * 
+ * First it gets the text content of @constant inputEl .
+ * 
+ * Then it checks if user have entered the text or not, and if yes.
+ * 
+ * Then it calls the @function generateSummary() to get the summary and major points.
  */
 async function getSummaryManual(){
 
@@ -252,7 +272,7 @@ async function getSummaryManual(){
      */
     if(paragraph){
 
-        /** Call function to generate summary or major points from the text using prompt parameter. */
+        /** Call function to generate summary or major points from the text according to type parameter value. */
         await generateSummary("normal", block, paragraph)
         await generateSummary("bullet", block, paragraph)
 
