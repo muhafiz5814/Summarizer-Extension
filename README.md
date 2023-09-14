@@ -9,7 +9,13 @@ Summarizer is a plugin or extension which can generate summary of the text conte
 This version of the summarizer at this time can process data of bbc/news articles.
 
 Update: In this version user can get both, summary and major points, in single request. \
-It reduces the response time, cost per request and inproves the user experience.
+It reduces the response time, cost per request and inproves the user experience. \
+
+Below is the difference between old and new GUI. \
+Summarizer1.0
+![Summarizer1.0](./Images/Summarizer1.0.png)
+Summarizer2.0
+![Summarizer2.0](./Images/Summarizer2.0.png)
 
 ## Features:
 * It is Responsive and attractive UI enabled.
