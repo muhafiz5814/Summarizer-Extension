@@ -12,10 +12,8 @@ Update: In this version user can get both, summary and major points, in single r
 It reduces the response time, cost per request and inproves the user experience. \
 
 Below is the difference between old and new GUI. \
-Summarizer1.0
-![Summarizer1.0](./Images/Summarizer1.0.png)
-Summarizer2.0
-![Summarizer2.0](./Images/Summarizer2.0.png)
+Summarizer1.0 vs Summarizer2.0 \
+![Sum1.0 vs Sum2.0](./Images/Sum1.0%20vs%20Sum2.0.jpg)
 
 ## Features:
 * It is Responsive and attractive UI enabled.
