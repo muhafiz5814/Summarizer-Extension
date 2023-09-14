@@ -1,6 +1,8 @@
 /**
  * Define function to summarize the data, we got either from input element or from extractor.
  * 
+ * @param {string} promptText holds the prompt to be sent to API, to generate the result.
+ * 
  * Extract the function to use it in main.js.
  */
 export async function summarizeText(promptText) {
@@ -42,7 +44,7 @@ export async function summarizeText(promptText) {
     /**
      * Define the async function to make the API request.
      * 
-     * Define function to make the HTTP API Request using fetch and async-await.
+     * This function is used to make the HTTP API Request using fetch and async-await.
      * 
      * This function returns a promise of json format.
      */

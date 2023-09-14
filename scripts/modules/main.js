@@ -27,7 +27,11 @@ function showTemporaryMessage1() {
                                     `
 }
 
-/** Define function to show temporary message while Summarizing or Getting Major Points in any of the section. */
+/** Define function to show temporary message while Summarizing or Getting Major Points in any of the section.
+ * 
+ * @param {string} type tells type of output to be generated, that is normal or bullets.
+ * @param {string} block tells block of the request from the user, that is url or manual.
+ */
 function showTemporaryMessage2(type, block) {
     if(block === "url"){
         if(type === "normal") {
@@ -77,11 +81,12 @@ function showTemporaryMessage2(type, block) {
 }
 
 /**
- * Define function to generate prompt accorting to request of user.
+ * Define @function to generate prompt accorting to request of user.
  * 
  * Either normal summary or bullets points.
  * 
- * It takes two string parameter, one is type of response we want and other is text that we want to process.
+ * @param {string} type tells which type of output to generate, that is normal or bullets.
+ * @param {string} text holds the text content that we want to process.
  */
 function generatePrompt(type, text){
     if(type === "bullet")
@@ -91,7 +96,10 @@ function generatePrompt(type, text){
 }
 
 
-/** Define function to get the Process failure message, according to at which stage, process failed. */
+/** Define @function to get the Process failure message, according to at which stage, process failed.
+ * 
+ * @param {string} process tells at which process/stage error occured.
+ */
 function getFailureMessage(process){
     if(process === "scraping"){
         return "Something happened, Unable to get page data.\n  Try manual summarization if error repeates."
@@ -100,7 +108,10 @@ function getFailureMessage(process){
 }
 
 /**
- * Define function to show the failure of the process at any stage. It takes temporary message element and updates it's text content.
+ * Define @function to show the failure of the process at any stage. It takes temporary message element and updates it's text content.
+ * 
+ * @param {string} block tells block of the request from the user, that is url or manual.
+ * @param {string} message holds the temporary message to show.
  */
 function showFailureMessage(block, message) {
     if(block === "url"){
@@ -110,7 +121,12 @@ function showFailureMessage(block, message) {
     }
 }
 
-/** Define function to render out to DOM. */
+
+/** Defint @function to get generated response and render out to DOM. 
+ * 
+ * @param {Element} bodyEl holds the body Element of the appropriate modal.
+ * @param {string} data holds the generated response to render out.
+ */
 function renderOutput(bodyEl, data) {
 
     /** Convert the String response to array of sentences. */
@@ -132,6 +148,9 @@ function renderOutput(bodyEl, data) {
 
 /**
  * Define a function to get the result and send it to the appropriate modal window according to the type of response.
+ * 
+ * @param {string} type tells type of output, that is normal or bullets.
+ * @param {string} data1 holds the generated response to render out.
  */
 function renderSummary(type, data1) {
     
@@ -157,8 +176,15 @@ function renderSummary(type, data1) {
     }
 }
 
-
-async function generateSummary(type, block, text){
+/**
+ * Define function to get the actual summary of the content that we will pass to it and render it to DOM.
+ * 
+ * @param {string} type tells which type of output to generate, that is normal or bullets.
+ * @param {string} block tells block of the request from the user, that is url or manual.
+ * @param {string} text holds the text content that we want to process.
+ * @param {Element} temporaryMessageEl holds the element, whose innerHTML we want to remove.
+ */
+async function generateSummary(type, block, text, temporaryMessageEl){
 
     /** Call function to show temporary message of summarizing. */
     showTemporaryMessage2(type, block)
@@ -181,7 +207,7 @@ async function generateSummary(type, block, text){
     } else {
 
         /** Remove the temporary message as we have got the response and process has completed successfully. */
-        temporaryMessageManualEl.innerHTML = ""
+        temporaryMessageEl.innerHTML = ""
 
         /** Call function to Update tht DOM and show output to user. */
         renderSummary(type, mainContent)
@@ -232,8 +258,8 @@ function getSummaryUrl() {
                 } else {
                     
                     /** Call function to generate summary or major points from the text according to type parameter value. */
-                    generateSummary("normal", block, content)
-                    generateSummary("bullet", block, content)
+                    generateSummary("normal", block, content, temporaryMessageUrlEl)
+                    generateSummary("bullet", block, content, temporaryMessageUrlEl)
                     
                 }
             })
@@ -273,8 +299,8 @@ async function getSummaryManual(){
     if(paragraph){
 
         /** Call function to generate summary or major points from the text according to type parameter value. */
-        await generateSummary("normal", block, paragraph)
-        await generateSummary("bullet", block, paragraph)
+        await generateSummary("normal", block, paragraph, temporaryMessageManualEl)
+        await generateSummary("bullet", block, paragraph, temporaryMessageManualEl)
 
         
     } else {
