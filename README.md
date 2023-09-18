@@ -1,10 +1,19 @@
 # Summarizer-Extension
 
-## Project Name:
-Summarizer
+## Project:
+Name: Summarizer \
+Version: 2.0
+
 ## Description:
 Summarizer is a plugin or extension which can generate summary of the text content of a page. It can also get some major points from the text. It can directly generate summary of page content without the need of us providing the text and it can also generate summary while we provide the text to it manually.
 This version of the summarizer at this time can process data of bbc/news articles.
+
+Update: In this version user can get both, summary and major points, in single request. \
+It reduces the response time, cost per request and inproves the user experience. \
+
+Below is the difference between old and new GUI. \
+Summarizer1.0 vs Summarizer2.0 \
+![Sum1.0 vs Sum2.0](./Images/Sum1.0%20vs%20Sum2.0.jpg)
 
 ## Features:
 * It is Responsive and attractive UI enabled.
@@ -22,14 +31,14 @@ Summarizer is an extension deployed to chrome. It works only when network is con
 
 ### Working of Generate Directly:
 Generate Directly feature is fully automated. User needs only one click of button to get the desired output.\
-When user clicks any of the button of Generate Directly section, it sends a request to chrome.tabs API to get the url of the current active or open tab.\
+When user clicks the button of Generate Directly section, it sends a request to chrome.tabs API to get the url of the current active or open tab.\
 After getting the url of the active tab, it is sent to the extractor to extract the data from page of our need.\
 Extractor returns the page data which we need to process on user’s request, in the form of an object, which contains array of data to be processed.\
 Extractor can also return the error message object in case of request failure.\
 This array of data is then converted into string to pass further.\
 This converted string is then sent to the Summarizer.\
 Before sending the string to the summarizer, string is checked for failure message.\
-Then if it is not failure message then Prompt is generated to tell the summarize which operation to perform, that is either user wants to generate the summary or it wants the major points from the content.\
+Then if it is not failure message then Prompt is generated to tell the summarizer which operation to perform.\
 Summarizer then takes the prompt (includes string to process) and sends request to the OpenAI API to perform the summarization.\
 Modal which is used in this request is gpt-3.5-turbo.\
 It generates response in JSON format which contains the output text.\
@@ -40,10 +49,10 @@ It also shows some temporary messages at every step, when it processes data, it 
 
 ### Working of Generate Manually:
 Generate Manually feature is not fully automated. User needs to enter the text and one click of button to get the desired output.\
-When user clicks any of the button of Generate Manually section input box’s value is sent for summarization.\
+When user clicks the button of Generate Manually section input box’s value is sent for summarization.\
 Before sending the value to summarizer it checks if user really have entered the value to input or not.\
 If no value has been inserted then the process is terminated a message to provide the input text first.\
-If text has been inserted, then Prompt is generated to tell the summarize which operation to perform, that is either user wants to generate the summary or it wants the major points from the content.\
+If text has been inserted, then Prompt is generated to tell the summarize which operation to perform.\
 Summarizer then takes the prompt (includes string to process) and sends request to the OpenAI API to perform the summarization.\
 Modal which is used in this request is gpt-3.5-turbo.\
 It generates response in JSON format which contains the output text.\
@@ -85,12 +94,11 @@ This extension provides two types of functionalities:
   * Generate Directly
   * Generate Manually
   * Show Result
-* To Generate the summary Directly, click on the Summarize button on Generate Directly section.
-* To Generate the Major Points of the page content, click on the Get Major Points button in Generate Directly.
+* Click on the SUMMARIZE button of Generate Directly section and it will generate both, summary and major points of the page content.
 * Server can take up-to 60 sec to generate the result.
 * After the process completes, we can see a message at Result section which will ask us to click the button below to see the result.
-* Click on the Open Result button and it will open a popup window with our result.
-
+* Click on the Open Summary button and it will open a popup window with summary.
+* Click on the Open Major Points button and it will open a popup window with major points.
 
 #### Run Generate Manually:
 * Go to chrome browser.
@@ -106,8 +114,8 @@ This extension provides two types of functionalities:
   * Generate Manually
   * Show Result
 * Paste the copied text into the input box of Generate Manually section.
-* To Generate the summary, click on the Summarize button on Generate Manually section.
-* To Generate the Major Points of the text, click on the Get Major Points button in Generate Manually.
-o Server can take up-to 60 sec to generate the result.
-o After the process completes, we can see a message at Result section which will ask us to click the button below to see the result.
-o Click on the Open Result button and it will open a popup window with our result.
+* Click on the SUMMARIZE button of Generate Manually section and it will generate both, summary and major points of the content.
+* Server can take up-to 60 sec to generate the result.
+* After the process completes, we can see a message at Result section which will ask us to click the button below to see the result.
+* Click on the Open Summary button and it will open a popup window with summary.
+* Click on the Open Major Points button and it will open a popup window with major points.

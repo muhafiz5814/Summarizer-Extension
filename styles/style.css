@@ -104,6 +104,19 @@ button:hover{
     border-radius: 4px 4px 0 0;
 }
 
+.access-modal-block  {
+    /* background-color: rgb(255, 0, 0); */
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.access-modal-block button {
+    margin-top: 5px;
+}
+
 #network-status {
     position: fixed;
     top: 0px;

@@ -28,11 +28,8 @@
                 <p>Generate Directly</p>
             </div>
             <div class="button-block" id="url-button">
-                <div id="url-button-1">
+                <div id="url-button">
                     <button id="summarize-url">SUMMARIZE</button>
-                </div>
-                <div id="url-button-2">
-                    <button id="summarize-in-bullets-url">GET MAJOR POINTS</button>
                 </div>
             </div>
             <div id="temporary-message-url" class="temporary-message">
@@ -41,7 +38,6 @@
         </div>
 
         <div id="manual-summarizer-block" class="summarizer-block">
-
             <div class="manual-title block-title">
                 <p>Generate Manually</p>
             </div>
@@ -50,11 +46,8 @@
             </div>
     
             <div class="button-block"  id="manual-button">
-                <div id="manual-button-1">
+                <div id="manual-button">
                     <button id="summarize-manual">SUMMARIZE</button>
-                </div>
-                <div id="manual-button-2">
-                    <button id="summarize-in-bullets-manual">GET MAJOR POINTS</button>
                 </div>
             </div>
 
@@ -63,23 +56,42 @@
             </div>
         </div>
 
-        
-        <div id="modal-block">
-            <div class="open-modal" id="open-modal">
-                <p id="open-modal-message" class="temporary-message"></p>
-                <button data-modal-target="#modal" id="open-modal-btn">Open Result</button>
+        <div class="access-modal-block">
+            <div class="open-modal" id="open-modal1">
+                <p id="open-summary-message" class="temporary-message"></p>
+                <button data-modal-target="#modal1" id="open-summary-btn">Open Summary</button>
             </div>
-            <div class="modal" id="modal">
-                <div class="modal-header">
-                    <div class="title" id="modal-title">Summary</div>
-                    <button data-close-button class="close-button" >&times;</button>
-                </div>
-                <div class="modal-body" id="modal-body">
-                    Nothing to show!
-                </div>
+            <div class="open-modal" id="open-modal2">
+                <p id="open-major-points-message" class="temporary-message"></p>
+                <button data-modal-target="#modal2" id="open-major-points-btn">Open Major Points</button>
             </div>
-            <div id="overlay"></div>
+        </div>
 
+        <div class="modal-block">
+            <div id="summary-modal-block">
+                <div class="modal" id="modal1">
+                    <div class="modal-header">
+                        <div class="title" id="summary-modal-title">Summary</div>
+                        <button data-close-button class="close-button" >&times;</button>
+                    </div>
+                    <div class="modal-body" id="summary-content">
+                        Nothing to show!
+                    </div>
+                </div>
+                <div id="overlay"></div>
+            </div>
+    
+            <div id="major-points-modal-block">
+                <div class="modal" id="modal2">
+                    <div class="modal-header">
+                        <div class="title" id="major-points-modal-title">Major Points</div>
+                        <button data-close-button class="close-button">&times;</button>
+                    </div>
+                    <div class="modal-body" id="major-points-content">
+                        Nothing to show!
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="network-status"></div>

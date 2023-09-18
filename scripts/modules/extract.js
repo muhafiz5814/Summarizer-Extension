@@ -1,12 +1,14 @@
 /**
  * Define function to get the data from the page, whose url is provided in parameter.
  * 
+ * @param {string} url holds the url of the target page.
+ * 
  * Extract the function to use it in main.js.
  */
 export async function extractContent(url){
 
     /** Store unique API Key in variable. */
-    const apiKey = "LBcgt9KswqYk8lwRk2K9sHmseFto2Zsk"
+    const apiKey = "API-KEY"
 
     /** Encode the provided url and store in a variable. */
     const pageUrl = encodeURIComponent(url)
@@ -28,6 +30,8 @@ export async function extractContent(url){
 
     /**
      * Define function to make the HTTP API Request using fetch and async-await.
+     * 
+     * @param {string} urlToFetch holds the request url to send to the API
      * 
      * This function returns a promise containing an object with desired html content.
      */

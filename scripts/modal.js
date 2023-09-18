@@ -13,7 +13,7 @@ openModalButtons.forEach(button => {
         document.body.style.minHeight = "600px"
         const modal = document.querySelector(button.dataset.modalTarget)
 
-        /** Call openModal. */
+        /** Call function openModal() */
         openModal(modal)
     })
 })
@@ -25,7 +25,7 @@ closeModalButtons.forEach(button => {
         /** Get the closest element with specified selector and store in variable. */
         const modal = button.closest(".modal")
 
-        /** Call closeModal */
+        /** Call function closeModal() */
         closeModal(modal)
         /** Update the style of body and set it to previous value. */
         document.body.style.minWidth = "300px"
@@ -44,15 +44,21 @@ overlayEl.addEventListener("click", () => {
 })
 
 
-/** Define function to add the class active to modal and overlay, and make it visible. */
-function openModal() {
+/** Define function to add the class active to modal and overlay, and make it visible.
+ * 
+ * @param {Element} modal holds the modal element to add active class.
+ */
+function openModal(modal) {
     if(modal == null) return
     modal.classList.add("active")
     overlayEl.classList.add("active")
 }
 
-/** Define function to remove the class active from modal and overlay, and make it hidden. */
-function closeModal() {
+/** Define function to remove the class active from modal and overlay, and make it hidden.
+ * 
+ * @param {Element} modal holds the modal element to remove active class.
+ */
+function closeModal(modal) {
     if(modal == null) return
     modal.classList.remove("active")
     overlayEl.classList.remove("active")
